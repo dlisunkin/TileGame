@@ -1,7 +1,9 @@
 package dev.dlisunkin.tilegame;
 
 import dev.dlisunkin.tilegame.display.Display;
+import dev.dlisunkin.tilegame.gfx.Assets;
 import dev.dlisunkin.tilegame.gfx.ImageLoader;
+import dev.dlisunkin.tilegame.gfx.SpriteSheet;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -19,8 +21,6 @@ public class Game implements Runnable {
     private BufferStrategy bs;
     private Graphics g;
 
-    private BufferedImage testImage;
-
     public Game(String title, int width, int height) {
         this.width = width;
         this.height = height;
@@ -29,11 +29,13 @@ public class Game implements Runnable {
 
     private void init() {
         display = new Display(title, width, height);
-        testImage = ImageLoader.loadImage("/textures/8_bit_block.png");
+        Assets.init();
     }
 
-    private void tick() {
+    private int x = 0;
 
+    private void tick() {
+        x += 1;
     }
 
     private void render() {
@@ -46,7 +48,7 @@ public class Game implements Runnable {
         g.clearRect(0, 0, width, height);                   //Clears everything under the selected Rectangle
         //Draw Here!
 
-        g.drawImage(testImage, 20, 20, null);
+        g.drawImage(Assets.blueTile, x % 500, x % 500, null);
 
         //End Drawing!
         bs.show();
@@ -56,9 +58,32 @@ public class Game implements Runnable {
     public void run() {
         init();
 
+        int fps = 60;
+        double timePerTick = 1000000000 / fps;
+        double delta = 0;
+        long now;
+        long lastTime = System.nanoTime();
+        long timer = 0;
+        int ticks = 0;
+
         while(running) {
-            tick();
-            render();
+            now = System.nanoTime();
+            delta += (now - lastTime) / timePerTick;
+            timer += now - lastTime;
+            lastTime = now;
+
+            if(delta >= 1) {
+                tick();
+                render();
+                ticks++;
+                delta--;
+            }
+
+            if (timer >= 1000000000) {
+                System.out.println("Ticks and Frames: " + ticks);
+                ticks = 0;
+                timer = 0;
+            }
         }
 
         stop();
