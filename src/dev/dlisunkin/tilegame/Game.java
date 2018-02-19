@@ -4,6 +4,7 @@ import dev.dlisunkin.tilegame.display.Display;
 import dev.dlisunkin.tilegame.gfx.Assets;
 import dev.dlisunkin.tilegame.gfx.ImageLoader;
 import dev.dlisunkin.tilegame.gfx.SpriteSheet;
+import dev.dlisunkin.tilegame.input.KeyManager;
 import dev.dlisunkin.tilegame.states.*;
 
 import java.awt.*;
@@ -27,23 +28,30 @@ public class Game implements Runnable {
     private State menuState;
     private State settingsState;
 
+    //Input
+    private KeyManager keyManager;
+
     public Game(String title, int width, int height) {
         this.width  = width;
         this.height = height;
         this.title  = title;
+        keyManager = new KeyManager();
     }
 
     private void init() {
         display = new Display(title, width, height);
+        display.getFrame().addKeyListener(keyManager);
         Assets.init();
 
-        gameState   = new GameState();
-        menuState   = new MenuState();
-        settingsState = new SettingsState();
+        gameState   = new GameState(this);
+        menuState   = new MenuState(this);
+        settingsState = new SettingsState(this);
         StateManager.setState(gameState);
     }
 
     private void tick() {
+        keyManager.tick();
+
         if(StateManager.getState() != null) {
             StateManager.getState().tick();
         }
@@ -100,6 +108,10 @@ public class Game implements Runnable {
         }
 
         stop();
+    }
+
+    public KeyManager getKeyManager() {
+        return keyManager;
     }
 
     public synchronized void start() {
