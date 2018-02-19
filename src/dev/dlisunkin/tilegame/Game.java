@@ -4,9 +4,7 @@ import dev.dlisunkin.tilegame.display.Display;
 import dev.dlisunkin.tilegame.gfx.Assets;
 import dev.dlisunkin.tilegame.gfx.ImageLoader;
 import dev.dlisunkin.tilegame.gfx.SpriteSheet;
-import dev.dlisunkin.tilegame.states.GameState;
-import dev.dlisunkin.tilegame.states.State;
-import dev.dlisunkin.tilegame.states.StateManager;
+import dev.dlisunkin.tilegame.states.*;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -26,18 +24,22 @@ public class Game implements Runnable {
 
     //States
     private State gameState;
+    private State menuState;
+    private State settingsState;
 
     public Game(String title, int width, int height) {
-        this.width = width;
+        this.width  = width;
         this.height = height;
-        this.title = title;
+        this.title  = title;
     }
 
     private void init() {
         display = new Display(title, width, height);
         Assets.init();
 
-        gameState = new GameState();
+        gameState   = new GameState();
+        menuState   = new MenuState();
+        settingsState = new SettingsState();
         StateManager.setState(gameState);
     }
 

@@ -1,22 +1,25 @@
 package dev.dlisunkin.tilegame.states;
 
+import dev.dlisunkin.tilegame.entities.creatures.Player;
 import dev.dlisunkin.tilegame.gfx.Assets;
 
 import java.awt.*;
 
 public class GameState extends State{
 
-    public GameState() {
+    private Player player;
 
+    public GameState() {
+        player = new Player(100, 100);
     }
 
     @Override
     public void tick() {
-
+        player.tick();
     }
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.whiteDot, 0, 0, null);
+        player.render(g);
     }
 }
