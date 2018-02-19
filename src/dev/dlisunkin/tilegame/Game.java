@@ -4,6 +4,9 @@ import dev.dlisunkin.tilegame.display.Display;
 import dev.dlisunkin.tilegame.gfx.Assets;
 import dev.dlisunkin.tilegame.gfx.ImageLoader;
 import dev.dlisunkin.tilegame.gfx.SpriteSheet;
+import dev.dlisunkin.tilegame.states.GameState;
+import dev.dlisunkin.tilegame.states.State;
+import dev.dlisunkin.tilegame.states.StateManager;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -21,6 +24,9 @@ public class Game implements Runnable {
     private BufferStrategy bs;
     private Graphics g;
 
+    //States
+    private State gameState;
+
     public Game(String title, int width, int height) {
         this.width = width;
         this.height = height;
@@ -30,12 +36,15 @@ public class Game implements Runnable {
     private void init() {
         display = new Display(title, width, height);
         Assets.init();
+
+        gameState = new GameState();
+        StateManager.setState(gameState);
     }
 
-    private int x = 0;
-
     private void tick() {
-        x += 1;
+        if(StateManager.getState() != null) {
+            StateManager.getState().tick();
+        }
     }
 
     private void render() {
@@ -48,7 +57,9 @@ public class Game implements Runnable {
         g.clearRect(0, 0, width, height);                   //Clears everything under the selected Rectangle
         //Draw Here!
 
-        g.drawImage(Assets.blueTile, x % 500, x % 500, null);
+        if(StateManager.getState() != null) {
+            StateManager.getState().render(g);
+        }
 
         //End Drawing!
         bs.show();
