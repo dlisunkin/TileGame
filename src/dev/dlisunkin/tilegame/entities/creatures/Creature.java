@@ -1,4 +1,6 @@
-package dev.dlisunkin.tilegame.entities;
+package dev.dlisunkin.tilegame.entities.creatures;
+
+import dev.dlisunkin.tilegame.entities.Entity;
 
 public abstract class Creature extends Entity {
 

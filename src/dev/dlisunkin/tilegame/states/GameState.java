@@ -4,6 +4,7 @@ import dev.dlisunkin.tilegame.Game;
 import dev.dlisunkin.tilegame.entities.creatures.Player;
 import dev.dlisunkin.tilegame.gfx.Assets;
 
+import dev.dlisunkin.tilegame.tile.Tile;
 import java.awt.*;
 
 public class GameState extends State{
@@ -23,5 +24,7 @@ public class GameState extends State{
     @Override
     public void render(Graphics g) {
         player.render(g);
+        Tile.tiles[2].render(g, 0, 0);
     }
+
 }

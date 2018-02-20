@@ -1,7 +1,6 @@
 package dev.dlisunkin.tilegame.entities.creatures;
 
 import dev.dlisunkin.tilegame.Game;
-import dev.dlisunkin.tilegame.entities.Creature;
 import dev.dlisunkin.tilegame.gfx.Assets;
 
 import java.awt.*;
@@ -34,7 +33,7 @@ public class Player extends Creature {
         if(game.getKeyManager().left) {
             xMove = -speed;
         }
-        if(game.getKeyManager().down) {
+        if(game.getKeyManager().right) {
             xMove = speed;
         }
     }
