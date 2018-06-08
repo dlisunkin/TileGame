@@ -1,16 +1,19 @@
 package dev.dlisunkin.tilegame.worlds;
 
+import dev.dlisunkin.tilegame.Game;
 import dev.dlisunkin.tilegame.tile.Tile;
 import dev.dlisunkin.tilegame.utils.Utils;
 import java.awt.Graphics;
 
 public class World {
 
+    private Game game;
     private int width, height;
     private int[][] tiles;
     private int spawnX, spawnY;
 
-    public World(String path) {
+    public World(Game game, String path) {
+        this.game = game;
         loadWorld(path);
     }
 
@@ -21,7 +24,9 @@ public class World {
     public void render(Graphics g) {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                getTile(x, y).render(g, x * Tile.TILEWIDTH, y * Tile.TILEHEIGHT);
+                getTile(x, y)
+                        .render(g, (int) (x * Tile.TILEWIDTH - game.getGameCamera().getxOffset()),
+                                (int) (y * Tile.TILEHEIGHT - game.getGameCamera().getyOffset()));
             }
         }
     }
@@ -45,9 +50,9 @@ public class World {
         spawnY = Utils.parseInt(tokens[3]);
 
         tiles = new int[width][height];
-        for(int y = 0; y < height; y++) {
-            for(int x = 0; x < width; x++) {
-                tiles[x][y] =  Utils.parseInt(tokens[(x + y * width) + 4]);
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                tiles[x][y] = Utils.parseInt(tokens[(x + y * width) + 4]);
             }
         }
     }
