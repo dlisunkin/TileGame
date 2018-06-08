@@ -1,0 +1,7 @@
+To deactivate the character accent menu of OS-X and to resume the Problem of any response by the keyboard type:
+
+        $ defaults write -g ApplePressAndHoldEnabled -bool false
+
+To reverse the setting:
+
+        $ defaults write -g ApplePressAndHoldEnabled -bool true
