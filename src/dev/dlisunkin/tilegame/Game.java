@@ -82,6 +82,7 @@ public class Game implements Runnable {
         g.dispose();
     }
 
+    @Override
     public void run() {
         init();
 
